@@ -1,6 +1,11 @@
+'''
+Skript slouží k vytvoření csv souboru se seznamem aut
+'''
+
 from typing import Any, Dict, List
 import json
 import sys
+import csv
 
 if len(sys.argv) < 2:
     print("nezadany argument, zadejte jeden nebo vice roku v rozmezi let 2017 - 2023")
@@ -14,8 +19,14 @@ for rok in sys.argv[1:]:
     with open(vstupni_soubor, encoding='UTF-8') as file:
         accidents: List[Dict[str, Dict[str, Any]]] = json.load(file)
 
-    cars = 'id_nehoda;cislo_auta;druh_vozidla;znacka;skoda;pneumatiky;kategorie_ridic;stari_vozidla;vlastnik;vzdelani_ridice;delka_praxe;stav_ridice;ovlivneni_ridice;oznaceni;pohlavi_ridice;vek_ridice;statni_prislusnost'
+    # zahlavi sloupcu
+    header = ['id_nehoda', 'cislo_auta', 'druh_vozidla', 'znacka', 'skoda', 'pneumatiky', 'kategorie_ridic', 'stari_vozidla', 'vlastnik', 'vzdelani_ridice', 'delka_praxe', 'stav_ridice', 'ovlivneni_ridice', 'oznaceni', 'pohlavi_ridice', 'vek_ridice', 'statni_prislusnost']
 
+    oddelovac = ';'
+    csv_zapis = csv.writer(open(vystupni_soubor, mode='w', encoding= 'UTF-8', newline=''), delimiter = oddelovac) 
+    csv_zapis.writerow(header)
+
+    # list s označením klíčů, jejichž hodnoty je potřeba uložit do csv souboru
     sloupce = [
         'Druh vozidla',
         'Výrobní značka',
@@ -30,7 +41,7 @@ for rok in sys.argv[1:]:
         'Vnější ovlivnění řidiče',
     ]
 
-
+    # procházení jednotlivých nehod a vytvoření záznamu do csv souboru, využití slovníku klíčů
     for accident in accidents:
         id_nehoda, nehoda = accident.popitem()
         keys_main = list(nehoda.keys())
@@ -40,6 +51,7 @@ for rok in sys.argv[1:]:
             data = [id_nehoda, str(cislo_auta)]
             for sloupec in sloupce:
                 data.append(nehoda[auto][sloupec])
+            # vyhledání řidíčů a získání informací o řidiči.
             for key in nehoda[auto]:
                 if not key.startswith("person-") or nehoda[auto][key]['Označení'] != "řidič":
                     continue
@@ -51,13 +63,5 @@ for rok in sys.argv[1:]:
                     'Státní příslušnost',                
                 ):
                     data.append(person[personkey])
-            
-        
-            zaznam = ";".join(data)
-            cars += f'\n{zaznam}'
-
-        
-
-
-with open(vystupni_soubor, mode='w', encoding= 'UTF/8') as output_file:
-     print(cars, file=output_file)
+        # pridani noveho zaznamu do csv souboru    
+        csv_zapis.writerow(data)  
