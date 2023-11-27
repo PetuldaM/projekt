@@ -1,3 +1,6 @@
+'''
+Skript slouží k vygenerování kalendáře v požadované struktuře za zvolené období
+'''
 from workalendar.registry import registry
 from workalendar.europe import CzechRepublic
 from datetime import date, datetime, timedelta
@@ -12,6 +15,7 @@ end_date = datetime(2023, 9, 30)
 
 our_calender = 'datum,den_v_tydnu,pracovni_den,svatek,prazdniny'
 
+# Načtení souboru s přehledem prázdnin
 with open('prazdniny.csv', 'r', encoding='UTF-8') as file:
      prazdniny = file.read().splitlines()
 
@@ -19,16 +23,16 @@ prazdniny_dict = {}
 for line in prazdniny:
     line_split = line.split(',')
     prazdniny_dict[line_split[0]] = line_split[1]
-# svatky
 svatky = CzechRepublic()
 holidays_dates = []
+
+#  Vytvoření seznamu svátků za zvolené odbobí
 for year in range(2017,2024):
-    # for svatek in svatky.holidays(year):
-    #     print(svatek[0], svatek[1])
     svatky_year= [svatek[0].strftime('%Y-%m-%d') for svatek in svatky.holidays(year)]
     holidays_dates.extend(svatky_year)
-print(holidays_dates)
 
+
+# vytvoření souboru v požadované struktuře
 for i in range((end_date - start_date).days + 1):
     datum = start_date + timedelta(days = i)
     weekday = datum.strftime('%a')

@@ -20,6 +20,6 @@ for lokace in vstup.splitlines():
     vysledek.append(lokace + "\n")
     
     
-with open("vysledek2.csv", "w", encoding='utf-8') as csv:
+with open("vysledek.csv", "w", encoding='utf-8') as csv:
     csv.writelines(vysledek)
     

@@ -1,5 +1,5 @@
 '''
-Popis - tento skript doplňuje názvy ulic u souřadnic, kde se nepovedlo získat je z Open street Map, přesto pár souřadnic zůtsává nedoplněných, bude doplněno ručně.
+Popis - tento skript doplňuje názvy ulic u souřadnic, kde se nepovedlo získat je z Openstreetmap, přesto pár souřadnic zůtsává nedoplněných, bude doplněno ručně.
 
 '''
 
