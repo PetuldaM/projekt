@@ -5,7 +5,7 @@ Popis - tento skript doplňuje názvy ulic u souřadnic, kde se nepovedlo získa
 
 import requests
 import csv
-import key_api # Pro možnost stahování je potřeba vygenerovat api key přímo na stránkách google maps pod uživatelským jménem. Klíč mám uložený lokálně v samostatném souboru
+import key_api # Pro možnost stahování je potřeba vygenerovat api key přímo na stránkách google maps pod uživatelským jménem. Klíč je uložený lokálně v samostatném souboru key_api.py , obsahuje proměnnou  api_key_google = 'vas klic'
 
 def get_street_name(api_key, latitude, longitude):
     base_url = "https://maps.googleapis.com/maps/api/geocode/json"
